@@ -18,24 +18,22 @@ if($action == 'Cadastrar') {
     $nomeLivro = filter_input(INPUT_POST, 'nomeLivro', FILTER_SANITIZE_STRING);
     $ano = filter_input(INPUT_POST, 'ano', FILTER_VALIDATE_INT);
 
-    $insertTipo1 = 'INSERT INTO livro(nome, ano)
-                    VALUES(\''. $nomeLivro. '\',' .$ano .');';
-
-    echo 'insertTipo1:' . $insertTipo1 .'<br>';
-
-    $insertTipo2 = "INSERT INTO livro(nome, ano)
-                    VALUES('". $nomeLivro. "'," .$ano .");";
-
-    echo 'insertTipo2:' . $insertTipo2 .'<br>';
-
-
     $insertTipo3 = "INSERT INTO livro(nome, ano)
                     VALUES('$nomeLivro',$ano);";
 
-    echo 'insertTipo3:' . $insertTipo3 .'<br>';
-
     $pdo->exec($insertTipo3);
 
+}
+
+$deletarID = filter_input(INPUT_GET, 'DeletarID', FILTER_VALIDATE_INT);
+
+if (is_numeric($deletarID)) {
+
+    $comandoSQL = "delete from livro where id = $deletarID;";
+
+    $totalPagados = $pdo->exec($comandoSQL);
+
+    echo 'totalPagados:' . $totalPagados . '<br>';
 }
 
 $consulta = $pdo->query('SELECT * FROM livro');
@@ -45,7 +43,9 @@ $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
 echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
 
 foreach ($livrosArray as $livro) {
-    echo $livro['id'] . ': ' . $livro['ano'] . ' - ' . $livro['nome'] . '<br>';
+    echo '<a href="livroCRUD.php?DeletarID='.$livro['id'].'">Deletar</a> '
+        . $livro['id'] . ': ' . $livro['ano'] . ' - '
+        . $livro['nome'] . '<br>' . PHP_EOL;
 }
 
 ?>

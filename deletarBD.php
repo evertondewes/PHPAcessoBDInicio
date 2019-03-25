@@ -4,12 +4,18 @@ $pdo = new PDO("mysql:host=localhost:3306;
                     dbname=biblioteca;charset=latin1",
     'root', '');
 
+$deletarID = filter_input(INPUT_GET, 'DeletarID', FILTER_VALIDATE_INT);
 
-$comandoSQL = "delete from livro where ano = 2019;";
+if (is_numeric($deletarID)) {
 
-echo 'comandoSQL:' . $comandoSQL . '<br>';
 
-$totalPagados = $pdo->exec($comandoSQL);
+    $comandoSQL = "delete from livro where id = $deletarID;";
 
-echo 'totalPagados:' . $totalPagados . '<br>';
+    echo 'comandoSQL:' . $comandoSQL . '<br>';
+
+    $totalPagados = $pdo->exec($comandoSQL);
+
+    echo 'totalPagados:' . $totalPagados . '<br>';
+}
+
 ?>
