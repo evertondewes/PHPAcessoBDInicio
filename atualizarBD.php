@@ -4,12 +4,53 @@ $pdo = new PDO("mysql:host=localhost:3306;
                     dbname=biblioteca;charset=latin1",
     'root', '');
 
+$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+$atualizarID = filter_input(INPUT_GET, 'AtualizarID', FILTER_VALIDATE_INT);
 
-$comandoSQL = "update livro set ano = 2019 where ano <> 2019;";
+if ($action == 'Atualizar') {
 
-echo 'comandoSQL:' . $comandoSQL . '<br>';
+    $nomeLivro = filter_input(INPUT_POST, 'nomeLivro', FILTER_SANITIZE_STRING);
+    $ano = filter_input(INPUT_POST, 'ano', FILTER_VALIDATE_INT);
 
-$total = $pdo->exec($comandoSQL);
+    $comandoAtualizar = "UPDATE livro SET nome = '$nomeLivro', ano = $ano
+                         WHERE id = $atualizarID;";
 
-echo 'total:' . $total . '<br>';
+    $pdo->exec($comandoAtualizar);
+
+}
+
+
+
+$consulta = $pdo->query("SELECT * FROM livro WHERE id = $atualizarID;");
+
+
+$livro = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+echo '<pre>' . print_r($livro, true) . '</pre><br>';
+
+
+//$comandoSQL = "update livro set ano = 2019 where ano <> 2019;";
+//
+//echo 'comandoSQL:' . $comandoSQL . '<br>';
+//
+//$total = $pdo->exec($comandoSQL);
+//
+//echo 'total:' . $total . '<br>';
+
+$id = $livro[0]['id'];
+$ano = $livro[0]['ano'];
+$nome = $livro[0]['nome'];
+
 ?>
+
+<html>
+<body>
+<form method="post">
+    ID: <?php echo $id; ?><br>
+    Nome do Livro:<input type="text" value="<?php echo $nome; ?>" name="nomeLivro"/><br>
+    Ano:<input type="number" value="<?php echo $ano; ?>" name="ano"/><br>
+    <input type="submit" name="action" value="Atualizar"/><br>
+</form>
+</body>
+</html>
+

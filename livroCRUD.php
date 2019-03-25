@@ -13,7 +13,7 @@ $pdo = new PDO("mysql:host=localhost:3306;
     'root', '');
 
 
-if($action == 'Cadastrar') {
+if ($action == 'Cadastrar') {
 
     $nomeLivro = filter_input(INPUT_POST, 'nomeLivro', FILTER_SANITIZE_STRING);
     $ano = filter_input(INPUT_POST, 'ano', FILTER_VALIDATE_INT);
@@ -43,8 +43,12 @@ $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
 echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
 
 foreach ($livrosArray as $livro) {
-    echo '<a href="livroCRUD.php?DeletarID='.$livro['id'].'">Deletar</a> '
-        . $livro['id'] . ': ' . $livro['ano'] . ' - '
+    echo '<a href="livroCRUD.php?DeletarID='
+        . $livro['id'] . '">Deletar</a> '
+        . '<a href="atualizarBD.php?AtualizarID='
+        . $livro['id'] . '">Atualizar</a> '
+        . $livro['id'] . ': '
+        . $livro['ano'] . ' - '
         . $livro['nome'] . '<br>' . PHP_EOL;
 }
 
