@@ -28,15 +28,6 @@ $livro = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
 echo '<pre>' . print_r($livro, true) . '</pre><br>';
 
-
-//$comandoSQL = "update livro set ano = 2019 where ano <> 2019;";
-//
-//echo 'comandoSQL:' . $comandoSQL . '<br>';
-//
-//$total = $pdo->exec($comandoSQL);
-//
-//echo 'total:' . $total . '<br>';
-
 $id = $livro[0]['id'];
 $ano = $livro[0]['ano'];
 $nome = $livro[0]['nome'];
@@ -47,6 +38,7 @@ $nome = $livro[0]['nome'];
 <body>
 <form method="post">
     ID: <?php echo $id; ?><br>
+    <input type="hidden" value="<?php echo $id; ?>" name="id">
     Nome do Livro:<input type="text" value="<?php echo $nome; ?>" name="nomeLivro"/><br>
     Ano:<input type="number" value="<?php echo $ano; ?>" name="ano"/><br>
     <input type="submit" name="action" value="Atualizar"/><br>
