@@ -1,4 +1,23 @@
 <?php
+
+function listarLivros($pdoConexcao) {
+    $consulta = $pdoConexcao->query('SELECT * FROM livro');
+
+    $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
+
+    foreach ($livrosArray as $livro) {
+        echo '<a href="finalCRUD.php?DeletarID='
+            . $livro['id'] . '">Apagar</a> '
+            . '<a href="finalCRUD.php?AtualizarID='
+            . $livro['id'] . '">Atualizar</a> '
+            . $livro['id'] . ': '
+            . $livro['ano'] . ' - '
+            . $livro['nome'] . '<br>' . PHP_EOL;
+    }
+}
+
 $pdo = new PDO("mysql:host=localhost:3306;
                     dbname=biblioteca;charset=latin1",
     'root', '');
@@ -25,22 +44,8 @@ if(empty($atualizarID) && empty($deletarID) && empty($action)){
     </form>
 
     <?php
+    listarLivros($pdo);
 
-    $consulta = $pdo->query('SELECT * FROM livro');
-
-    $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
-
-    foreach ($livrosArray as $livro) {
-        echo '<a href="finalCRUD.php?DeletarID='
-            . $livro['id'] . '">Deletar</a> '
-            . '<a href="finalCRUD.php?AtualizarID='
-            . $livro['id'] . '">Atualizar</a> '
-            . $livro['id'] . ': '
-            . $livro['ano'] . ' - '
-            . $livro['nome'] . '<br>' . PHP_EOL;
-    }
 }
 
 // ação de cadastrar
@@ -63,21 +68,7 @@ if(empty($atualizarID) && empty($deletarID) && $action== 'Cadastrar') {
 
     <?php
 
-    $consulta = $pdo->query('SELECT * FROM livro');
-
-    $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
-
-    foreach ($livrosArray as $livro) {
-        echo '<a href="finalCRUD.php?DeletarID='
-            . $livro['id'] . '">Deletar</a> '
-            . '<a href="finalCRUD.php?AtualizarID='
-            . $livro['id'] . '">Atualizar</a> '
-            . $livro['id'] . ': '
-            . $livro['ano'] . ' - '
-            . $livro['nome'] . '<br>' . PHP_EOL;
-    }
+    listarLivros($pdo);
 }
 
 // ação de apagar
@@ -99,21 +90,7 @@ if(empty($atualizarID) && !empty($deletarID) && empty($action)) {
 
     <?php
 
-    $consulta = $pdo->query('SELECT * FROM livro');
-
-    $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
-
-    foreach ($livrosArray as $livro) {
-        echo '<a href="finalCRUD.php?DeletarID='
-            . $livro['id'] . '">Deletar</a> '
-            . '<a href="finalCRUD.php?AtualizarID='
-            . $livro['id'] . '">Atualizar</a> '
-            . $livro['id'] . ': '
-            . $livro['ano'] . ' - '
-            . $livro['nome'] . '<br>' . PHP_EOL;
-    }
+    listarLivros($pdo);
 }
 
 // ação para abrir o formulário de edição
@@ -137,21 +114,7 @@ if(!empty($atualizarID) && empty($deletarID) && empty($action)) {
         <?php
     }
 
-    $consulta = $pdo->query('SELECT * FROM livro');
-
-    $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
-
-    foreach ($livrosArray as $livro) {
-        echo '<a href="finalCRUD.php?DeletarID='
-            . $livro['id'] . '">Deletar</a> '
-            . '<a href="finalCRUD.php?AtualizarID='
-            . $livro['id'] . '">Atualizar</a> '
-            . $livro['id'] . ': '
-            . $livro['ano'] . ' - '
-            . $livro['nome'] . '<br>' . PHP_EOL;
-    }
+    listarLivros($pdo);
 }
 
 // ação de atualização dos dados no banco (update)
@@ -174,20 +137,6 @@ if(!empty($atualizarID) && empty($deletarID) && $action=='Atualizar') {
 
     <?php
 
-    $consulta = $pdo->query('SELECT * FROM livro');
-
-    $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    echo 'id' . ': ' . 'ano' . ' - ' . 'nome' . '<br>';
-
-    foreach ($livrosArray as $livro) {
-        echo '<a href="finalCRUD.php?DeletarID='
-            . $livro['id'] . '">Deletar</a> '
-            . '<a href="finalCRUD.php?AtualizarID='
-            . $livro['id'] . '">Atualizar</a> '
-            . $livro['id'] . ': '
-            . $livro['ano'] . ' - '
-            . $livro['nome'] . '<br>' . PHP_EOL;
-    }
+    listarLivros($pdo);
 
 }
