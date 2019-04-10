@@ -55,7 +55,7 @@ if(!empty($atualizarID) && empty($deletarID) && empty($action)) {
 
     $livro = consultarLivrosBanco($pdo, $atualizarID );
 
-    criarFormAtualizar($livro);
+    criarFormAtualizar($livro, $autores);
 
     listarLivros($pdo);
 }
@@ -64,8 +64,9 @@ if(!empty($atualizarID) && empty($deletarID) && empty($action)) {
 if(!empty($atualizarID) && empty($deletarID) && $action=='Atualizar') {
     $nomeLivro = filter_input(INPUT_POST, 'nomeLivro', FILTER_SANITIZE_STRING);
     $ano = filter_input(INPUT_POST, 'ano', FILTER_VALIDATE_INT);
+    $idAutor = filter_input(INPUT_POST, 'id_autor', FILTER_VALIDATE_INT);
 
-    criarOuAtualizar($pdo, $nomeLivro, $ano, $atualizarID);
+    criarOuAtualizar($pdo, $nomeLivro, $ano, $idAutor, $atualizarID);
 
     criarFormCadastro($autores);
 

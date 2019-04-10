@@ -15,9 +15,15 @@ function consultarLivrosBanco($pdo, $atualizarID = null){
                                  FROM livro, autor 
                                  where livro.id_autor = autor.id');
     } else {
-        $consulta = $pdo->query(
-            "SELECT * FROM livro, autor WHERE 
-              livro.id_autor = autor.id and id = $atualizarID;");
+        $sql = "SELECT livro.id as 'idLivro',
+                       livro.nome as 'nomeLivro', 
+                       livro.ano, 
+                       autor.id  as 'idAutor'
+                       FROM livro, autor WHERE 
+              livro.id_autor = autor.id and livro.id = $atualizarID;";
+
+
+        $consulta = $pdo->query($sql);
     }
 
     $livrosArray = $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -43,17 +49,31 @@ function listarLivros($pdoConexcao) {
     }
 }
 
-function criarFormAtualizar($livro){
+function criarFormAtualizar($livro, $autores){
     if(is_array($livro) && count($livro)>0) {
-        $id = $livro[0]['id'];
+        $id = $livro[0]['idLivro'];
         $ano = $livro[0]['ano'];
-        $nome = $livro[0]['nome'];
+        $nome = $livro[0]['nomeLivro'];
+        $idAutor = $livro[0]['idAutor'];
         ?>
         <form method="post">
             ID: <?php echo $id; ?><br>
             <input type="hidden" value="<?php echo $id; ?>" name="id">
             Nome do Livro:<input type="text" value="<?php echo $nome; ?>" name="nomeLivro"/><br>
             Ano:<input type="number" value="<?php echo $ano; ?>" name="ano"/><br>
+            Selecionar Autor:
+            <select name="id_autor">
+                <?php
+                foreach ($autores as $autor){
+
+                    $selected = ($autor['id']==$idAutor)?'selected':'';
+
+                    echo '<option '.$selected.'  value="' . $autor['id'] .'">' .
+                        $autor['nome'] . '</option>' . PHP_EOL;
+                }
+                ?>
+            </select>
+            <br>
             <input type="submit" name="action" value="Atualizar"/>
             <a href="finalCRUD.php">Cancelar</a>
             <br>
